@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Restaurant {
+  id                          Int       @id @default(autoincrement())
+  name                        String    @db.VarChar(150)
+  category                    String?   @db.VarChar(100)
+  rating                      Decimal?  @db.Decimal(2, 1)
+  ownerId                     Int?
+  owner                       User?     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  emailVerificationCodeHash   String?   @db.VarChar(255)
+  emailVerificationExpiresAt  DateTime?
+  emailVerifiedAt             DateTime?
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(150)
+  email    String @unique @db.VarChar(150)
+  password String @db.VarChar(255)
+  emailVerifiedAt DateTime?
+  restaurants Restaurant[]
+}

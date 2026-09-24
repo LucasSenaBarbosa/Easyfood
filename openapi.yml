@@ -1,0 +1,328 @@
+openapi: 3.0.3
+info:
+  title: EasyFood API
+  description: API de autenticacao e cadastro de restaurantes do EasyFood.
+  version: 1.0.0
+  contact:
+    name: Projeto EasyFood
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+tags:
+  - name: Autenticacao
+    description: Registro, login e validacao da sessao
+  - name: Restaurantes
+    description: Consulta e cadastro de restaurantes
+
+paths:
+  /auth/register:
+    post:
+      tags: [Autenticacao]
+      summary: Criar usuario
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            example:
+              name: Lucas Silva
+              email: lucas@example.com
+              password: senha-segura
+      responses:
+        '201':
+          description: Usuario criado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: E-mail ja cadastrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/login:
+    post:
+      tags: [Autenticacao]
+      summary: Autenticar usuario
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: lucas@example.com
+              password: senha-segura
+      responses:
+        '200':
+          description: Login realizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Credenciais invalidas.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /auth/me:
+    get:
+      tags: [Autenticacao]
+      summary: Validar usuario autenticado
+      operationId: getCurrentUser
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token valido.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message, user]
+                properties:
+                  message:
+                    type: string
+                    example: Voce esta autenticado
+                  user:
+                    $ref: '#/components/schemas/AuthenticatedUser'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /restaurants:
+    get:
+      tags: [Restaurantes]
+      summary: Listar restaurantes
+      description: Endpoint publico. Retorna todos os restaurantes persistidos no banco.
+      operationId: listRestaurants
+      responses:
+        '200':
+          description: Lista de restaurantes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags: [Restaurantes]
+      summary: Cadastrar restaurante
+      description: Requer usuario autenticado. O restaurante inicia sem avaliacao.
+      operationId: createRestaurant
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRestaurantRequest'
+            example:
+              name: Pizzaria do Lucas
+              category: Pizza
+      responses:
+        '201':
+          description: Restaurante criado com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [restaurant, message]
+                properties:
+                  restaurant:
+                    $ref: '#/components/schemas/Restaurant'
+                  message:
+                    type: string
+                    example: Restaurante cadastrado com sucesso.
+        '400':
+          description: Dados ausentes ou categoria invalida.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Informe o token JWT retornado por /auth/login.
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+          maxLength: 150
+          example: Lucas Silva
+        email:
+          type: string
+          format: email
+          maxLength: 150
+          example: lucas@example.com
+        password:
+          type: string
+          format: password
+          example: senha-segura
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 150
+          example: lucas@example.com
+        password:
+          type: string
+          format: password
+          example: senha-segura
+
+    CreateRestaurantRequest:
+      type: object
+      required: [name, category]
+      properties:
+        name:
+          type: string
+          maxLength: 150
+          example: Pizzaria do Lucas
+        category:
+          type: string
+          enum:
+            - Italiana
+            - Japonesa
+            - Brasileira
+            - Burger
+            - Pizza
+            - Mexicana
+            - Chinesa
+            - Fast Food
+            - Saudável
+            - Sobremesas
+            - Cafeteria
+          example: Pizza
+
+    User:
+      type: object
+      required: [id, name, email]
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Lucas Silva
+        email:
+          type: string
+          format: email
+          example: lucas@example.com
+
+    AuthenticatedUser:
+      type: object
+      required: [id, email]
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        email:
+          type: string
+          format: email
+          example: lucas@example.com
+
+    LoginResponse:
+      type: object
+      required: [token, user]
+      properties:
+        token:
+          type: string
+          description: Token JWT valido por uma hora.
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        user:
+          $ref: '#/components/schemas/User'
+
+    Restaurant:
+      type: object
+      required: [id, name, category, rating, ownerId]
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Pizzaria do Lucas
+        category:
+          type: string
+          nullable: true
+          example: Pizza
+        rating:
+          type: number
+          format: double
+          nullable: true
+          description: Nulo enquanto o restaurante ainda nao recebeu avaliacao.
+          example: 5.0
+        ownerId:
+          type: integer
+          format: int32
+          nullable: true
+          example: 1
+        emailVerifiedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: Nome e categoria são obrigatórios
+
+  responses:
+    BadRequest:
+      description: Requisicao invalida.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Token ausente, invalido ou expirado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Erro interno do servidor.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
