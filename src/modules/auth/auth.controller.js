@@ -39,4 +39,19 @@ async function login(req, res) {
   }
 }
 
-module.exports = { register, login };
+async function uploadImage(req, res) {
+  try {
+    const user = await authService.updateProfileImage(req.user.id, req.file.buffer);
+    res.json(user);
+  } catch (error) {
+    const status = error.statusCode || 500;
+
+    if (status === 500) {
+      console.error("Erro ao atualizar imagem de perfil:", error.message);
+    }
+
+    res.status(status).json({ error: status === 500 ? "Erro interno do servidor" : error.message });
+  }
+}
+
+module.exports = { register, login, uploadImage };

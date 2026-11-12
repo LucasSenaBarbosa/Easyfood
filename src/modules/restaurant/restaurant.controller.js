@@ -1,31 +1,22 @@
 const restaurantService = require("./restaurant.service");
+const { handleError } = require("../shared/http.utils");
 
 async function list(req, res) {
   try {
     const restaurantes = await restaurantService.listRestaurants();
-    res.json(restaurantes);
+    return res.json(restaurantes);
   } catch (error) {
-    console.error("Erro ao buscar restaurantes:", error.message);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    return handleError(res, error);
   }
 }
 
 async function create(req, res) {
-  const { name, category, rating } = req.body;
-
-  if (!name || !category) {
-    return res.status(400).json({ error: "Nome e categoria são obrigatórios" });
-  }
-
   try {
-    const restaurant = await restaurantService.createRestaurant(
-      { name, category, rating: rating || 0 },
-      req.user
-    );
-    res.status(201).json(restaurant);
+    const { name, category, rating } = req.body;
+    const restaurant = await restaurantService.createRestaurant({ name, category, rating }, req.user);
+    return res.status(201).json(restaurant);
   } catch (error) {
-    console.error("Erro ao cadastrar restaurante:", error.message);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    return handleError(res, error);
   }
 }
 

@@ -1,4 +1,7 @@
 const prisma = require("../../database/prisma");
+const imageService = require("../shared/image.service");
+const notificationService = require("../notifications/notification.service");
+const { parseId } = require("../shared/http.utils");
 
 function validateDish(data) {
   if (typeof data.name !== "string" || !data.name.trim()) {
@@ -34,16 +37,6 @@ function validateDish(data) {
     description: data.description,
     price: price.toFixed(2)
   };
-}
-
-function parseId(value) {
-  const id = Number(value);
-  if (!Number.isSafeInteger(id) || id <= 0) {
-    const error = new Error("Identificador inválido");
-    error.statusCode = 400;
-    throw error;
-  }
-  return id;
 }
 
 // ⬅️ NOVA: autorização por dono
@@ -82,11 +75,19 @@ async function createDish(restaurantId, data, userId) { // ⬅️ novo parâmetr
 
   ensureOwnership(restaurant, userId); // ⬅️ só o dono passa
 
-  return prisma.dish.create({
+  const dish = await prisma.dish.create({
     // imageUrl começa vazio: o prato é criado primeiro, a imagem é enviada depois.
     // Como o campo é obrigatório no schema, gravamos "" na criação.
     data: { ...validated, imageUrl: "", restaurantId: id }
   });
+
+  await notificationService.notifyRestaurantFollowers(id, userId, {
+    type: "NEW_DISH",
+    title: `Novidade em ${restaurant.name}`,
+    message: `${dish.name} acabou de entrar no cardápio.`
+  });
+
+  return dish;
 }
 
 async function listDishes(restaurantId) {
@@ -127,6 +128,23 @@ async function deleteDish(dishId, userId) { // ⬅️ novo parâmetro userId
   ensureOwnership(dish.restaurant, userId); // ⬅️
 
   await prisma.dish.delete({ where: { id: dish.id } });
+  await imageService.removeImage(dish.imageUrl);
+}
+
+// Troca a imagem do prato usando o serviço compartilhado (só o dono do restaurante)
+async function updateDishImage(dishId, buffer, userId) {
+  const dish = await getDishWithRestaurant(dishId);
+
+  ensureOwnership(dish.restaurant, userId);
+
+  return imageService.replaceImage({
+    buffer,
+    folder: "dishes",
+    width: 800,
+    height: 600,
+    previousPath: dish.imageUrl,
+    persist: (imageUrl) => prisma.dish.update({ where: { id: dish.id }, data: { imageUrl } })
+  });
 }
 
 module.exports = {
@@ -135,5 +153,6 @@ module.exports = {
   getDish,
   updateDish,
   deleteDish,
+  updateDishImage,
   parseId
 };

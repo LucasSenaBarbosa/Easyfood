@@ -3,132 +3,221 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f2ea">
   <title>EasyFood</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #f7f2ea;
+      --backdrop: #ece4d8;
+      --surface: #ffffff;
+      --surface-soft: #f3ede3;
+      --ink: #1e1914;
+      --ink-soft: #675d53;
+      --ink-faint: #7a7066;
+      --line: #e9e0d4;
+      --brand: #d63a16;
+      --brand-dark: #b52e0f;
+      --brand-soft: #fdeae3;
+      --amber: #8a5a00;
+      --amber-soft: #fff1d2;
+      --success: #1b6e45;
+      --success-soft: #e1f3e8;
+      --danger: #ad2a1f;
+      --danger-soft: #fce7e4;
+      --shadow-card: 0 1px 2px rgba(60, 40, 20, 0.04), 0 8px 24px rgba(60, 40, 20, 0.06);
+      --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+      --font-body: "DM Sans", "Segoe UI", system-ui, sans-serif;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
+    html,
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f5f5f5;
+      height: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
       display: flex;
       justify-content: center;
-      padding: 20px;
-    }
-
-    .phone {
-      width: 390px;
-      height: 844px;
-      background: #fff;
-      border-radius: 40px;
-      border: 8px solid #1a1a1a;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Status bar */
-    .status-bar {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 12px 24px 8px;
-      font-size: 14px;
-      font-weight: 600;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    .ui-icon {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
       flex-shrink: 0;
     }
 
-    /* Header */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    /* Estrutura do app */
+    .phone {
+      width: 100%;
+      max-width: 440px;
+      height: 100vh;
+      height: 100dvh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    @media (min-width: 520px) {
+      body {
+        background: var(--backdrop);
+        padding: 24px;
+      }
+
+      .phone {
+        height: min(900px, calc(100dvh - 48px));
+        border-radius: 32px;
+        box-shadow: 0 30px 80px rgba(60, 40, 20, 0.18);
+      }
+    }
+
+    /* Cabeçalho */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 20px 16px;
-      border-bottom: 1px solid #f0f0f0;
+      padding: 18px 20px 12px;
       flex-shrink: 0;
-    }
-
-    .header-menu {
-      font-size: 22px;
-      cursor: pointer;
     }
 
     .header-logo {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 22px;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 23px;
       font-weight: 700;
-      font-style: italic;
+      letter-spacing: -0.03em;
     }
 
-    .header-logo .icon {
-      font-size: 24px;
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      background: var(--brand);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .header-cart {
       position: relative;
-      font-size: 22px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--surface);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
 
     .cart-badge {
       position: absolute;
-      top: -6px;
-      right: -8px;
-      background: #1a1a1a;
-      color: white;
-      font-size: 10px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
+      top: -2px;
+      right: -2px;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      background: var(--brand);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      font-style: normal;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-style: normal;
+      border: 2px solid var(--bg);
+      box-sizing: content-box;
     }
 
-    /* Search */
+    /* Busca */
     .search-bar {
-      margin: 16px 20px;
+      margin: 6px 20px 14px;
+      height: 52px;
+      padding: 0 8px 0 16px;
       display: flex;
       align-items: center;
-      background: #f8f8f8;
-      border: 1px solid #e8e8e8;
-      border-radius: 12px;
-      padding: 12px 16px;
       gap: 10px;
+      background: var(--surface);
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+      color: var(--ink-faint);
       flex-shrink: 0;
     }
 
     .search-bar input {
+      flex: 1;
+      min-width: 0;
       border: none;
       outline: none;
       background: transparent;
-      flex: 1;
       font-size: 15px;
-      color: #333;
     }
 
     .search-bar input::placeholder {
-      color: #999;
+      color: var(--ink-faint);
+      opacity: 1;
     }
 
     .search-bar .filter-icon {
-      font-size: 18px;
-      color: #666;
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      background: var(--surface-soft);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Categories */
+    /* Categorias */
     .categories {
       display: flex;
-      gap: 10px;
-      padding: 0 20px 16px;
+      gap: 8px;
+      padding: 2px 20px 14px;
       overflow-x: auto;
+      scrollbar-width: none;
       flex-shrink: 0;
     }
 
@@ -140,77 +229,82 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 16px;
-      border-radius: 20px;
-      border: 1px solid #e0e0e0;
-      font-size: 13px;
-      font-weight: 500;
+      height: 42px;
+      padding: 0 16px;
+      border-radius: 21px;
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
-      transition: all 0.2s;
       user-select: none;
+      transition: background-color 0.18s, color 0.18s;
     }
 
     .category-chip:hover {
-      background: #f0f0f0;
+      background: var(--surface-soft);
     }
 
     .category-chip.active {
-      background: #1a1a1a;
-      color: white;
-      border-color: #1a1a1a;
+      background: var(--ink);
+      color: #fff;
     }
 
-    /* Section header */
+    /* Título da seção */
     .section-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 8px 20px 12px;
+      align-items: baseline;
+      padding: 6px 20px 12px;
       flex-shrink: 0;
     }
 
     .section-header h2 {
-      font-size: 18px;
+      font-family: var(--font-display);
+      font-size: 22px;
       font-weight: 700;
+      letter-spacing: -0.02em;
     }
 
     .section-header .order-btn {
       font-size: 13px;
-      color: #666;
+      font-weight: 600;
+      color: var(--ink-soft);
       cursor: pointer;
     }
 
-    /* Restaurant list - scrollable area */
+    /* Lista de restaurantes */
     .restaurant-list {
-      padding: 0 20px;
+      padding: 2px 20px 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       flex: 1;
       overflow-y: auto;
-      padding-bottom: 16px;
+      scrollbar-width: none;
     }
 
     .restaurant-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .restaurant-list::-webkit-scrollbar-thumb {
-      background: #ddd;
-      border-radius: 4px;
+      display: none;
     }
 
     .restaurant-card {
       display: flex;
       align-items: center;
-      padding: 14px;
-      border: 1px solid #f0f0f0;
-      border-radius: 14px;
       gap: 14px;
-      transition: all 0.2s;
-      animation: fadeIn 0.3s ease;
+      padding: 12px;
+      background: var(--surface);
+      border-radius: 22px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
       flex-shrink: 0;
+      animation: fadeIn 0.3s ease both;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+
+    .restaurant-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 4px rgba(60, 40, 20, 0.05), 0 14px 30px rgba(60, 40, 20, 0.1);
     }
 
     @keyframes fadeIn {
@@ -218,124 +312,134 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .restaurant-card:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    }
-
     .restaurant-img {
-      width: 80px;
-      height: 80px;
-      background: #f0f0f0;
-      border-radius: 10px;
+      width: 84px;
+      height: 84px;
+      border-radius: 18px;
+      background: var(--surface-soft);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
 
+    .restaurant-img[data-category="Pizza"] { background: #ffe5d4; }
+    .restaurant-img[data-category="Burger"] { background: #fcebc6; }
+    .restaurant-img[data-category="Sushi"] { background: #dcf0f1; }
+    .restaurant-img[data-category="Saudável"] { background: #e2f3da; }
+    .restaurant-img[data-category="Mexicana"] { background: #fde1cd; }
+    .restaurant-img[data-category="Brasileira"] { background: #f8e9cc; }
+    .restaurant-img[data-category="Japonesa"] { background: #fbe1e5; }
+    .restaurant-img[data-category="Italiana"] { background: #e4efd9; }
+
     .restaurant-img .placeholder {
-      font-size: 28px;
+      font-size: 38px;
+      line-height: 1;
     }
 
     .restaurant-info {
       flex: 1;
+      min-width: 0;
     }
 
     .restaurant-info h3 {
-      font-size: 15px;
+      font-family: var(--font-display);
+      font-size: 17px;
       font-weight: 700;
-      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+      margin-bottom: 3px;
+      overflow-wrap: anywhere;
     }
 
     .restaurant-info .meta {
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 6px;
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
     }
 
     .restaurant-info .rating {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      background: #f8f8f8;
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 3px 9px;
+      border-radius: 9px;
+      background: var(--amber-soft);
+      color: var(--amber);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .restaurant-right {
-      text-align: right;
+      align-self: stretch;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       align-items: flex-end;
-      gap: 20px;
+      text-align: right;
+      padding: 2px 4px 2px 0;
     }
 
     .heart {
-      font-size: 18px;
-      color: #ccc;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--ink-faint);
       cursor: pointer;
-      transition: color 0.2s;
+      transition: color 0.18s;
     }
 
     .heart:hover {
-      color: #e74c3c;
+      color: var(--brand);
     }
 
     .delivery-info {
       font-size: 11px;
-      color: #888;
-      text-align: right;
+      color: var(--ink-soft);
     }
 
     .delivery-info .price {
-      font-weight: 600;
-      color: #333;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
     }
 
-    /* Load more button */
     .load-more-btn {
       display: block;
       width: 100%;
-      padding: 14px;
-      margin-top: 4px;
-      background: #f8f8f8;
-      border: 1px solid #e8e8e8;
-      border-radius: 12px;
+      height: 50px;
+      background: var(--surface);
+      border: none;
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
       font-size: 14px;
-      font-weight: 600;
-      color: #333;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
       flex-shrink: 0;
+      transition: background-color 0.18s, color 0.18s;
     }
 
     .load-more-btn:hover {
-      background: #1a1a1a;
-      color: white;
-      border-color: #1a1a1a;
+      background: var(--ink);
+      color: #fff;
     }
 
     .load-more-btn:disabled {
-      opacity: 0.5;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
-    /* Loading */
+    /* Estados */
     .loading {
       text-align: center;
       padding: 60px 20px;
-      color: #999;
+      color: var(--ink-soft);
       font-size: 14px;
     }
 
     .spinner {
       display: inline-block;
-      width: 28px;
-      height: 28px;
-      border: 3px solid #e0e0e0;
-      border-top-color: #1a1a1a;
+      width: 30px;
+      height: 30px;
+      border: 3px solid var(--line);
+      border-top-color: var(--brand);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       margin-bottom: 12px;
@@ -345,38 +449,37 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Mini spinner for load more */
     .mini-spinner {
       display: inline-block;
       width: 14px;
       height: 14px;
-      border: 2px solid #ccc;
-      border-top-color: #333;
+      border: 2px solid var(--line);
+      border-top-color: var(--brand);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       vertical-align: middle;
       margin-right: 6px;
     }
 
-    /* Empty state */
     .empty {
       text-align: center;
       padding: 50px 20px;
-      color: #999;
+      color: var(--ink-soft);
       font-size: 14px;
+      line-height: 1.5;
     }
 
     .empty .icon {
-      font-size: 40px;
+      font-size: 42px;
       margin-bottom: 12px;
     }
 
-    /* Error */
     .error {
       text-align: center;
       padding: 40px 20px;
-      color: #e74c3c;
+      color: var(--danger);
       font-size: 14px;
+      line-height: 1.5;
     }
 
     .error .icon {
@@ -384,22 +487,31 @@
       margin-bottom: 8px;
     }
 
-    /* Add Restaurant Form */
+    /* Telas internas: cadastrar, cardápio e perfil */
     .add-restaurant-section {
       display: none;
-      padding: 20px;
+      padding: 8px 20px 20px;
       flex: 1;
       overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .add-restaurant-section::-webkit-scrollbar {
+      display: none;
     }
 
     .add-restaurant-section.active {
       display: block;
+      animation: fadeIn 0.25s ease both;
     }
 
     .add-restaurant-section h2 {
-      font-size: 18px;
+      font-family: var(--font-display);
+      font-size: 26px;
       font-weight: 700;
-      margin-bottom: 16px;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 18px;
     }
 
     .form-group {
@@ -410,128 +522,696 @@
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: #555;
+      color: var(--ink-soft);
       margin-bottom: 6px;
     }
 
     .form-group input,
-    .form-group select {
+    .form-group select,
+    .form-group textarea {
       width: 100%;
-      padding: 12px 14px;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 14px;
+      min-height: 50px;
+      padding: 13px 14px;
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      font-size: 15px;
       outline: none;
-      transition: border-color 0.2s;
-      background: #f8f8f8;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--ink-faint);
     }
 
     .form-group input:focus,
-    .form-group select:focus {
-      border-color: #1a1a1a;
-      background: #fff;
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-soft);
+    }
+
+    .form-group input[type="file"] {
+      padding: 9px 10px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .form-group input[type="file"]::file-selector-button {
+      margin-right: 10px;
+      padding: 7px 12px;
+      border: none;
+      border-radius: 10px;
+      background: var(--surface-soft);
+      color: var(--ink);
+      font-weight: 600;
+      cursor: pointer;
     }
 
     .submit-btn {
       width: 100%;
-      padding: 14px;
-      background: #1a1a1a;
-      color: white;
+      height: 54px;
+      margin-top: 6px;
+      background: var(--brand);
+      color: #fff;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: opacity 0.2s;
-      margin-top: 8px;
+      transition: background-color 0.18s, transform 0.12s;
     }
 
     .submit-btn:hover {
-      opacity: 0.85;
+      background: var(--brand-dark);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
     }
 
     .submit-btn:disabled {
-      opacity: 0.5;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
     .form-message {
-      text-align: center;
-      padding: 10px;
-      margin-top: 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
       display: none;
+      text-align: center;
+      padding: 11px 14px;
+      margin-top: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
     }
 
     .form-message.success {
       display: block;
-      background: #e8f5e9;
-      color: #2e7d32;
+      background: var(--success-soft);
+      color: var(--success);
     }
 
     .form-message.error {
       display: block;
-      background: #fbe9e7;
-      color: #c62828;
+      background: var(--danger-soft);
+      color: var(--danger);
     }
 
-    /* Bottom nav */
+    .text-btn {
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      cursor: pointer;
+      padding: 6px 0;
+    }
+
+    .text-btn:hover {
+      color: var(--ink);
+    }
+
+    .auth-toggle {
+      display: block;
+      margin: 14px auto 0;
+    }
+
+    /* Perfil */
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    .add-restaurant-section .profile-card h2 {
+      font-size: 24px;
+      margin-bottom: 2px;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-avatar {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      background: var(--brand-soft);
+      color: var(--brand);
+      border: 4px solid var(--surface);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .profile-avatar .ui-icon {
+      width: 56px;
+      height: 56px;
+      stroke-width: 1.5;
+    }
+
+    .profile-avatar img,
+    .dish-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-email {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .upload-btn {
+      position: relative;
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 14px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.18s;
+    }
+
+    .upload-btn:hover {
+      background: #3a3128;
+    }
+
+    .upload-hint {
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin-top: 10px;
+    }
+
+    .logout-btn {
+      margin-top: 20px;
+      color: var(--danger);
+    }
+
+    .logout-btn:hover {
+      color: var(--danger);
+      text-decoration: underline;
+    }
+
+    /* Cardápio */
+    .menu-header {
+      margin: 6px 0 16px;
+    }
+
+    .add-restaurant-section .menu-header h2 {
+      margin-bottom: 4px;
+      overflow-wrap: anywhere;
+    }
+
+    .menu-category {
+      font-size: 14px;
+      color: var(--ink-soft);
+    }
+
+    .dish-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .dish-card {
+      display: flex;
+      gap: 14px;
+      padding: 12px;
+      background: var(--surface);
+      border-radius: 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .dish-img {
+      width: 96px;
+      height: 96px;
+      flex-shrink: 0;
+      border-radius: 16px;
+      background: var(--surface-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      overflow: hidden;
+    }
+
+    .dish-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dish-info h3 {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      overflow-wrap: anywhere;
+    }
+
+    .dish-category {
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin: 1px 0 4px;
+    }
+
+    .dish-description {
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+      overflow-wrap: anywhere;
+    }
+
+    .dish-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dish-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--brand);
+    }
+
+    .dish-upload {
+      position: relative;
+      padding: 5px 10px;
+      border-radius: 10px;
+      background: var(--surface-soft);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .add-dish-form {
+      padding: 18px 16px 16px;
+      background: var(--surface);
+      border-radius: 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .add-dish-form h3 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 14px;
+    }
+
+    .add-dish-form .form-group input,
+    .add-dish-form .form-group textarea {
+      background: var(--bg);
+    }
+
+    /* Navegação inferior */
     .bottom-nav {
       display: flex;
-      justify-content: space-around;
-      padding: 12px 0;
-      border-top: 1px solid #f0f0f0;
+      margin: 8px 14px max(14px, env(safe-area-inset-bottom));
+      padding: 8px 6px;
+      background: var(--ink);
+      border-radius: 24px;
+      box-shadow: 0 12px 28px rgba(30, 25, 20, 0.28);
       flex-shrink: 0;
     }
 
     .nav-item {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      font-size: 10px;
-      color: #999;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.68);
       cursor: pointer;
+      user-select: none;
+      transition: color 0.18s;
     }
 
+    .nav-item:hover,
     .nav-item.active {
-      color: #1a1a1a;
+      color: #fff;
     }
 
     .nav-item .icon {
-      font-size: 20px;
+      width: 46px;
+      height: 30px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.18s;
+    }
+
+    .nav-item.active .icon {
+      background: var(--brand);
+    }
+
+    .nav-item .icon img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Busca, favoritos, carrinho e notificações */
+    .phone {
+      position: relative;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .header-cart {
+      border: none;
+      color: inherit;
+    }
+
+    .search-bar {
+      width: calc(100% - 40px);
+      border: none;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .search-field {
+      height: 52px;
+      padding: 0 16px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+      color: var(--ink-faint);
+    }
+
+    .search-field:focus-within {
+      box-shadow: 0 0 0 2px var(--brand);
+    }
+
+    .search-field input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .results-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+
+    .heart {
+      width: 32px;
+      height: 32px;
+      margin: -4px -4px 0 0;
+      border: none;
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heart.active {
+      color: var(--brand);
+    }
+
+    .heart.active .ui-icon {
+      fill: currentColor;
+    }
+
+    [data-open-restaurant] {
+      cursor: pointer;
+    }
+
+    .dish-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .add-cart-btn,
+    .qty-stepper button,
+    .icon-btn {
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .add-cart-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: var(--brand);
+      color: #fff;
+      transition: background-color 0.18s;
+    }
+
+    .add-cart-btn:hover {
+      background: var(--brand-dark);
+    }
+
+    .add-cart-btn .ui-icon,
+    .qty-stepper .ui-icon,
+    .icon-btn .ui-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .qty-stepper {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--surface-soft);
+      border-radius: 12px;
+      padding: 2px;
+    }
+
+    .qty-stepper button {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: var(--surface);
+    }
+
+    .qty-stepper button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .qty-stepper span {
+      min-width: 24px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: none;
+      color: var(--ink-faint);
+    }
+
+    .icon-btn:hover {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .view-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .view-heading .text-btn {
+      white-space: nowrap;
+    }
+
+    .cart-restaurant {
+      margin: -12px 0 14px;
+    }
+
+    .cart-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: var(--surface);
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+      font-weight: 600;
+    }
+
+    .cart-summary strong {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .login-prompt .submit-btn {
+      max-width: 200px;
+      margin-top: 16px;
+    }
+
+    .notification-card {
+      width: 100%;
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border: none;
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow-card);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .notification-dot {
+      width: 9px;
+      height: 9px;
+      margin-top: 6px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    .notification-card.unread .notification-dot {
+      background: var(--brand);
+    }
+
+    .notification-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow-wrap: anywhere;
+    }
+
+    .notification-body strong {
+      font-size: 14px;
+    }
+
+    .notification-card:not(.unread) .notification-body strong {
+      font-weight: 500;
+    }
+
+    .notification-body span {
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--ink-soft);
+    }
+
+    .notification-body time {
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .toast {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 104px;
+      z-index: 10;
+      margin: 0;
+      box-shadow: 0 10px 26px rgba(60, 40, 20, 0.18);
+    }
+
+    /* Foco visível para teclado */
+    .restaurant-card:focus-visible,
+    .text-btn:focus-visible,
+    .submit-btn:focus-visible,
+    .load-more-btn:focus-visible,
+    .header-cart:focus-visible,
+    .search-bar:focus-visible,
+    .heart:focus-visible,
+    .add-cart-btn:focus-visible,
+    .qty-stepper button:focus-visible,
+    .icon-btn:focus-visible,
+    .notification-card:focus-visible,
+    [data-open-restaurant]:focus-visible,
+    .upload-btn:focus-within,
+    .dish-upload:focus-within {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
   <div class="phone">
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <span>9:41</span>
-      <span>📶 🔋</span>
-    </div>
-
     <!-- Header -->
     <div class="header">
-      <span class="header-menu">☰</span>
       <div class="header-logo">
-        <span class="icon">🍴</span>
+        <span class="logo-mark">
+          <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10"/><path d="M17 3c-2 1-3.5 3.8-3.5 7 0 2 1.2 3 3.5 3v8"/></svg>
+        </span>
         <span>EasyFood</span>
       </div>
-      <span class="header-cart">
-        🛒
-        <i class="cart-badge">2</i>
-      </span>
+      <div class="header-actions">
+        <button type="button" class="header-cart" aria-label="Notificações" onclick="switchView('notifications')">
+          <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <i class="cart-badge" id="notifications-badge" hidden></i>
+        </button>
+        <button type="button" class="header-cart" aria-label="Carrinho" onclick="switchView('cart')">
+          <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l1.2 12.2a1.6 1.6 0 0 1-1.6 1.8H6.4a1.6 1.6 0 0 1-1.6-1.8L6 7Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+          <i class="cart-badge" id="cart-badge" hidden></i>
+        </button>
+      </div>
     </div>
 
     <!-- Search -->
-    <div class="search-bar">
-      <span>🔍</span>
-      <input type="text" placeholder="Buscar restaurantes" disabled>
-      <span class="filter-icon">⚙️</span>
-    </div>
+    <button type="button" class="search-bar" onclick="switchView('search')">
+      <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span>Buscar restaurantes e pratos</span>
+    </button>
 
     <!-- Categories -->
     <div class="categories" id="categories">
@@ -558,7 +1238,7 @@
 
     <!-- Add Restaurant Form (hidden by default) -->
     <div class="add-restaurant-section" id="add-restaurant-section">
-      <h2>➕ Cadastrar Restaurante</h2>
+      <h2>Cadastrar restaurante</h2>
       <form id="add-restaurant-form">
         <div class="form-group">
           <label for="restaurant-name">Nome do Restaurante</label>
@@ -578,35 +1258,146 @@
             <option value="Italiana">🍝 Italiana</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="restaurant-rating">Avaliação (0 a 5)</label>
-          <input type="number" id="restaurant-rating" placeholder="Ex: 4.3" min="0" max="5" step="0.1" required>
-        </div>
         <button type="submit" class="submit-btn" id="submit-btn">Cadastrar Restaurante</button>
       </form>
       <div class="form-message" id="form-message"></div>
     </div>
 
+    <!-- Cardápio do restaurante -->
+    <div class="add-restaurant-section" id="menu-section">
+      <button type="button" class="text-btn" id="menu-back">← Voltar</button>
+      <div class="menu-header">
+        <h2 id="menu-title"></h2>
+        <p class="menu-category" id="menu-category"></p>
+      </div>
+      <div class="dish-list" id="dish-list"></div>
+      <div class="form-message" id="menu-message"></div>
+
+      <form class="add-dish-form" id="add-dish-form" hidden>
+        <h3>Adicionar prato</h3>
+        <div class="form-group">
+          <label for="dish-name">Nome</label>
+          <input type="text" id="dish-name" placeholder="Ex: Pizza Margherita" required>
+        </div>
+        <div class="form-group">
+          <label for="dish-category">Categoria</label>
+          <input type="text" id="dish-category" placeholder="Ex: Pizzas salgadas" required>
+        </div>
+        <div class="form-group">
+          <label for="dish-price">Preço (R$)</label>
+          <input type="number" id="dish-price" placeholder="Ex: 39.90" min="0" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="dish-description">Descrição</label>
+          <textarea id="dish-description" rows="2" placeholder="Ingredientes e detalhes"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="dish-image">Imagem (JPEG, PNG ou WebP, até 5 MB)</label>
+          <input type="file" id="dish-image" accept="image/jpeg,image/png,image/webp">
+        </div>
+        <button type="submit" class="submit-btn" id="dish-submit-btn">Adicionar prato</button>
+      </form>
+    </div>
+
+    <!-- Login e perfil -->
+    <div class="add-restaurant-section" id="profile-section">
+      <div id="auth-panel">
+        <h2 id="auth-title">Entrar</h2>
+        <form id="auth-form">
+          <div class="form-group" id="auth-name-group" hidden>
+            <label for="auth-name">Nome</label>
+            <input type="text" id="auth-name" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="auth-email">E-mail</label>
+            <input type="email" id="auth-email" autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label for="auth-password">Senha</label>
+            <input type="password" id="auth-password" autocomplete="current-password" required>
+          </div>
+          <button type="submit" class="submit-btn" id="auth-submit-btn">Entrar</button>
+        </form>
+        <button type="button" class="text-btn auth-toggle" id="auth-toggle">Ainda não tem conta? Cadastre-se</button>
+        <div class="form-message" id="auth-message"></div>
+      </div>
+
+      <div class="profile-card" id="profile-panel" hidden>
+        <div class="profile-avatar" id="profile-avatar"></div>
+        <h2 id="profile-name"></h2>
+        <p class="profile-email" id="profile-email"></p>
+        <label class="upload-btn">
+          Alterar foto
+          <input type="file" class="visually-hidden" id="profile-image-input" accept="image/jpeg,image/png,image/webp">
+        </label>
+        <p class="upload-hint">JPEG, PNG ou WebP, até 5 MB</p>
+        <div class="form-message" id="profile-message"></div>
+        <button type="button" class="text-btn logout-btn" id="logout-btn">Sair da conta</button>
+      </div>
+    </div>
+
+    <!-- Busca -->
+    <div class="add-restaurant-section" id="search-section">
+      <h2>Buscar</h2>
+      <label class="search-field">
+        <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <span class="visually-hidden">Buscar restaurantes e pratos</span>
+        <input type="search" id="search-input" placeholder="Restaurante, categoria ou prato" autocomplete="off" maxlength="100">
+      </label>
+      <div id="search-results"></div>
+    </div>
+
+    <!-- Favoritos -->
+    <div class="add-restaurant-section" id="favorites-section">
+      <h2>Favoritos</h2>
+      <div class="dish-list" id="favorites-list"></div>
+    </div>
+
+    <!-- Carrinho -->
+    <div class="add-restaurant-section" id="cart-section">
+      <div class="view-heading">
+        <h2>Carrinho</h2>
+        <button type="button" class="text-btn" id="cart-clear" hidden>Esvaziar</button>
+      </div>
+      <p class="menu-category cart-restaurant" id="cart-restaurant" hidden></p>
+      <div class="dish-list" id="cart-items"></div>
+      <div class="cart-summary" id="cart-summary" hidden>
+        <span>Subtotal</span>
+        <strong id="cart-subtotal"></strong>
+      </div>
+    </div>
+
+    <!-- Notificações -->
+    <div class="add-restaurant-section" id="notifications-section">
+      <div class="view-heading">
+        <h2>Notificações</h2>
+        <button type="button" class="text-btn" id="notifications-read-all" hidden>Marcar todas como lidas</button>
+      </div>
+      <div class="dish-list" id="notifications-list"></div>
+    </div>
+
+    <div class="form-message toast" id="toast" role="status"></div>
+
     <!-- Bottom nav -->
     <div class="bottom-nav">
       <div class="nav-item active" data-view="home" onclick="switchView('home')">
-        <span class="icon">🏠</span>
+        <span class="icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9"/></svg></span>
         <span>Início</span>
       </div>
-      <div class="nav-item" data-view="search" onclick="switchView('home')">
-        <span class="icon">🔍</span>
+      <div class="nav-item" data-view="search" onclick="switchView('search')">
+        <span class="icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
         <span>Buscar</span>
       </div>
       <div class="nav-item" data-view="add" onclick="switchView('add')">
-        <span class="icon">➕</span>
+        <span class="icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span>
         <span>Cadastrar</span>
       </div>
-      <div class="nav-item" data-view="favorites">
-        <span class="icon">❤️</span>
+      <div class="nav-item" data-view="favorites" onclick="switchView('favorites')">
+        <span class="icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-9-9.3C2 7.3 4.2 4.5 7.2 4.5c2 0 3.6 1 4.8 2.8 1.2-1.8 2.8-2.8 4.8-2.8 3 0 5.2 2.8 4.2 6.2C19.5 15.4 12 20 12 20Z"/></svg></span>
         <span>Favoritos</span>
       </div>
-      <div class="nav-item" data-view="profile">
-        <span class="icon">👤</span>
+      <div class="nav-item" data-view="profile" onclick="switchView('profile')">
+        <span class="icon" id="nav-profile-icon"></span>
         <span>Perfil</span>
       </div>
     </div>
@@ -618,7 +1409,83 @@
     // Consome a API com filtro por categoria e paginação
     // =============================================================
 
-    const API_URL = "http://localhost:3000/restaurants";
+    const API_BASE = "http://localhost:3000";
+    const SESSION_KEY = "easyfood.session";
+    const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+    const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+    let session = loadSession();
+
+    function loadSession() {
+      try {
+        return JSON.parse(localStorage.getItem(SESSION_KEY));
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function storeSession(value) {
+      const tokenChanged = (session && session.token) !== (value && value.token);
+      session = value;
+      try {
+        if (value) {
+          localStorage.setItem(SESSION_KEY, JSON.stringify(value));
+        } else {
+          localStorage.removeItem(SESSION_KEY);
+        }
+      } catch (error) {
+        // Sem localStorage a sessão continua válida até recarregar a página
+      }
+      renderSession();
+      if (tokenChanged) {
+        syncUserData();
+      }
+    }
+
+    // Tudo que vem da API passa por aqui antes de entrar em innerHTML
+    function escapeHtml(value) {
+      const replacements = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+      return String(value ?? "").replace(/[&<>"']/g, char => replacements[char]);
+    }
+
+    function imageSrc(imagePath) {
+      return `${API_BASE}${imagePath}`;
+    }
+
+    // Chamada única à API: envia o token e devolve a mensagem de erro do servidor
+    async function apiRequest(path, { method = "GET", body, auth = false } = {}) {
+      const headers = {};
+      let payload = body;
+
+      if (auth && session) {
+        headers.Authorization = `Bearer ${session.token}`;
+      }
+
+      if (body && !(body instanceof FormData)) {
+        headers["Content-Type"] = "application/json";
+        payload = JSON.stringify(body);
+      }
+
+      let response;
+      try {
+        response = await fetch(`${API_BASE}${path}`, { method, headers, body: payload });
+      } catch (error) {
+        throw new Error("Não foi possível conectar à API. Verifique se o servidor está rodando.");
+      }
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        if (auth && response.status === 401) {
+          storeSession(null);
+        }
+        const failure = new Error((data && data.error) || "Não foi possível concluir a operação.");
+        failure.status = response.status;
+        throw failure;
+      }
+
+      return data;
+    }
 
     // Quantos restaurantes exibir por vez
     const PAGE_SIZE = 3;
@@ -665,16 +1532,14 @@
       showLoading();
 
       try {
-        const response = await fetch(API_URL);
-        const restaurants = await response.json();
-        allRestaurants = restaurants;
+        allRestaurants = await apiRequest("/restaurants");
 
         setTimeout(() => {
           filterAndRender();
         }, 500);
 
       } catch (error) {
-        showError();
+        showError(error.message);
       }
     }
 
@@ -717,25 +1582,7 @@
       }
 
       // Monta os cards
-      let html = visible.map((restaurant, index) => `
-        <div class="restaurant-card" style="animation-delay: ${index * 0.05}s">
-          <div class="restaurant-img">
-            <span class="placeholder">${categoryEmoji[restaurant.category] || "🏪"}</span>
-          </div>
-          <div class="restaurant-info">
-            <h3>${restaurant.name}</h3>
-            <div class="meta">${restaurant.category} • 20-30 min</div>
-            <div class="rating">★ ${restaurant.rating}</div>
-          </div>
-          <div class="restaurant-right">
-            <span class="heart">♡</span>
-            <div class="delivery-info">
-              Entrega<br>
-              <span class="price">R$ ${getDeliveryPrice(restaurant.id)}</span>
-            </div>
-          </div>
-        </div>
-      `).join("");
+      let html = renderRestaurantCards(visible);
 
       // Botão "Carregar mais" se tiver mais resultados
       if (hasMore) {
@@ -769,16 +1616,13 @@
 
     // ----- ERRO -----
 
-    function showError() {
+    function showError(message) {
       const list = document.getElementById("restaurant-list");
       list.innerHTML = `
         <div class="error">
           <div class="icon">⚠️</div>
-          <p><strong>Servidor offline</strong></p>
-          <p style="margin-top:8px; color:#999;">
-            Rode no terminal:<br>
-            <code>node server.js</code>
-          </p>
+          <p><strong>Não foi possível carregar os restaurantes</strong></p>
+          <p style="margin-top:8px; color:#999;">${escapeHtml(message)}</p>
         </div>
       `;
     }
@@ -804,26 +1648,35 @@
     // Navegação entre views (Home / Cadastrar)
     // =============================================================
 
+    const SECTION_BY_VIEW = {
+      add: 'add-restaurant-section',
+      menu: 'menu-section',
+      profile: 'profile-section',
+      search: 'search-section',
+      favorites: 'favorites-section',
+      cart: 'cart-section',
+      notifications: 'notifications-section'
+    };
+    let activeTab = 'home';
+
     function switchView(view) {
       const homeElements = document.querySelectorAll('.search-bar, .categories, .section-header, .restaurant-list');
-      const addSection = document.getElementById('add-restaurant-section');
       const navItems = document.querySelectorAll('.nav-item');
 
-      if (view === 'add') {
-        homeElements.forEach(el => el.style.display = 'none');
-        addSection.classList.add('active');
-      } else {
-        homeElements.forEach(el => el.style.display = '');
-        addSection.classList.remove('active');
-      }
-
-      // Atualiza nav ativo
-      navItems.forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.view === view) {
-          item.classList.add('active');
-        }
+      homeElements.forEach(el => el.style.display = view === 'home' ? '' : 'none');
+      Object.entries(SECTION_BY_VIEW).forEach(([name, sectionId]) => {
+        document.getElementById(sectionId).classList.toggle('active', name === view);
       });
+
+      // Cardápio, carrinho e notificações não são abas: mantêm a aba de origem
+      if (document.querySelector(`.nav-item[data-view="${view}"]`)) {
+        activeTab = view;
+      }
+      navItems.forEach(item => item.classList.toggle('active', item.dataset.view === activeTab));
+
+      if (VIEW_LOADERS[view]) {
+        VIEW_LOADERS[view]();
+      }
     }
 
     // =============================================================
@@ -838,10 +1691,15 @@
 
       const name = document.getElementById('restaurant-name').value.trim();
       const category = document.getElementById('restaurant-category').value;
-      const rating = parseFloat(document.getElementById('restaurant-rating').value);
 
-      if (!name || !category || isNaN(rating)) {
+      if (!name || !category) {
         showFormMessage('Preencha todos os campos corretamente.', 'error');
+        return;
+      }
+
+      if (!session) {
+        switchView('profile');
+        showMessage(authMessage, 'Entre na sua conta para cadastrar um restaurante.', 'error');
         return;
       }
 
@@ -850,30 +1708,23 @@
       submitBtn.textContent = 'Cadastrando...';
 
       try {
-        const response = await fetch(API_URL, {
+        const newRestaurant = await apiRequest('/restaurants', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ name, category, rating })
+          body: { name, category },
+          auth: true
         });
-
-        if (!response.ok) {
-          throw new Error('Erro ao cadastrar restaurante');
-        }
-
-        const newRestaurant = await response.json();
-        showFormMessage(`✅ "${newRestaurant.name}" cadastrado com sucesso!`, 'success');
+        showFormMessage(`"${newRestaurant.name}" cadastrado com sucesso!`, 'success');
 
         // Limpa o formulário
         addForm.reset();
 
         // Atualiza a lista de restaurantes
         allRestaurants.push(newRestaurant);
+        loadNotifications();
         filterAndRender();
 
       } catch (error) {
-        showFormMessage('❌ Erro ao cadastrar. Verifique se o servidor está rodando.', 'error');
+        showFormMessage(error.message, 'error');
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Cadastrar Restaurante';
@@ -881,12 +1732,750 @@
     });
 
     function showFormMessage(text, type) {
-      formMessage.textContent = text;
-      formMessage.className = 'form-message ' + type;
-      setTimeout(() => {
-        formMessage.className = 'form-message';
-      }, 4000);
+      showMessage(formMessage, text, type);
     }
+
+    function showMessage(element, text, type) {
+      element.textContent = text;
+      element.classList.remove('success', 'error');
+      element.classList.add(type);
+      clearTimeout(element.hideTimer);
+      element.hideTimer = setTimeout(() => {
+        element.classList.remove('success', 'error');
+      }, 5000);
+    }
+
+    // =============================================================
+    // Upload de imagens
+    // =============================================================
+
+    function uploadImage(path, file) {
+      if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+        return Promise.reject(new Error('Formato não suportado. Envie JPEG, PNG ou WebP.'));
+      }
+      if (file.size > MAX_IMAGE_SIZE) {
+        return Promise.reject(new Error('A imagem deve ter no máximo 5 MB.'));
+      }
+
+      const data = new FormData();
+      data.append('image', file);
+      return apiRequest(path, { method: 'POST', body: data, auth: true });
+    }
+
+    // =============================================================
+    // Login, cadastro e perfil
+    // =============================================================
+
+    const authForm = document.getElementById('auth-form');
+    const authMessage = document.getElementById('auth-message');
+    const authNameGroup = document.getElementById('auth-name-group');
+    const authNameInput = document.getElementById('auth-name');
+    const authSubmitBtn = document.getElementById('auth-submit-btn');
+    const authToggle = document.getElementById('auth-toggle');
+    const profileMessage = document.getElementById('profile-message');
+    const profileImageInput = document.getElementById('profile-image-input');
+    const USER_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.2-4 4.2-6 8-6s6.8 2 8 6"/></svg>';
+    let isRegistering = false;
+
+    function renderAvatar(container, imageUrl) {
+      container.innerHTML = USER_ICON;
+      if (imageUrl) {
+        const image = document.createElement('img');
+        image.src = imageSrc(imageUrl);
+        image.alt = 'Foto de perfil';
+        container.replaceChildren(image);
+      }
+    }
+
+    function renderSession() {
+      const user = session ? session.user : null;
+
+      document.getElementById('auth-panel').hidden = Boolean(user);
+      document.getElementById('profile-panel').hidden = !user;
+      renderAvatar(document.getElementById('nav-profile-icon'), user && user.imageUrl);
+
+      if (user) {
+        document.getElementById('profile-name').textContent = user.name;
+        document.getElementById('profile-email').textContent = user.email;
+        renderAvatar(document.getElementById('profile-avatar'), user.imageUrl);
+      }
+
+      if (currentRestaurant) {
+        renderMenu();
+      }
+    }
+
+    function setAuthMode(registering) {
+      isRegistering = registering;
+      authNameGroup.hidden = !registering;
+      authNameInput.required = registering;
+      const label = registering ? 'Criar conta' : 'Entrar';
+      document.getElementById('auth-title').textContent = label;
+      authSubmitBtn.textContent = label;
+      authToggle.textContent = registering ? 'Já tem conta? Entrar' : 'Ainda não tem conta? Cadastre-se';
+    }
+
+    authToggle.addEventListener('click', () => setAuthMode(!isRegistering));
+
+    authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value;
+
+      authSubmitBtn.disabled = true;
+
+      try {
+        if (isRegistering) {
+          const name = authNameInput.value.trim();
+          await apiRequest('/auth/register', { method: 'POST', body: { name, email, password } });
+        }
+
+        storeSession(await apiRequest('/auth/login', { method: 'POST', body: { email, password } }));
+        authForm.reset();
+        setAuthMode(false);
+      } catch (error) {
+        showMessage(authMessage, error.message, 'error');
+      } finally {
+        authSubmitBtn.disabled = false;
+      }
+    });
+
+    profileImageInput.addEventListener('change', async () => {
+      const file = profileImageInput.files[0];
+      if (!file) {
+        return;
+      }
+
+      showMessage(profileMessage, 'Enviando foto...', 'success');
+
+      try {
+        const user = await uploadImage('/auth/me/image', file);
+        storeSession({ token: session.token, user });
+        showMessage(profileMessage, 'Foto atualizada!', 'success');
+      } catch (error) {
+        showMessage(profileMessage, error.message, 'error');
+      } finally {
+        profileImageInput.value = '';
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => storeSession(null));
+
+    // Atualiza os dados salvos; um token expirado encerra a sessão em apiRequest
+    async function refreshSession() {
+      if (!session) {
+        return;
+      }
+
+      try {
+        const { user } = await apiRequest('/auth/me', { auth: true });
+        storeSession({ token: session.token, user });
+      } catch (error) {
+        console.warn('Não foi possível atualizar a sessão:', error.message);
+      }
+    }
+
+    // =============================================================
+    // Cardápio do restaurante
+    // =============================================================
+
+    const dishList = document.getElementById('dish-list');
+    const menuMessage = document.getElementById('menu-message');
+    const addDishForm = document.getElementById('add-dish-form');
+    let currentRestaurant = null;
+    let currentDishes = [];
+
+    function ownsCurrentRestaurant() {
+      return Boolean(session && currentRestaurant && currentRestaurant.ownerId === session.user.id);
+    }
+
+    function formatPrice(price) {
+      return Number(price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function renderMenu() {
+      const isOwner = ownsCurrentRestaurant();
+      addDishForm.hidden = !isOwner;
+
+      if (currentDishes.length === 0) {
+        dishList.innerHTML = `
+          <div class="empty">
+            <div class="icon">🍽️</div>
+            <p>Este restaurante ainda não tem pratos.</p>
+          </div>
+        `;
+        return;
+      }
+
+      dishList.innerHTML = currentDishes.map(dish => dishCardHtml(dish, { isOwner })).join('');
+    }
+
+    async function openMenu(restaurantId) {
+      currentRestaurant = knownRestaurants.get(restaurantId) || null;
+      if (!currentRestaurant) {
+        return;
+      }
+
+      currentDishes = [];
+      addDishForm.hidden = true;
+      document.getElementById('menu-title').textContent = currentRestaurant.name;
+      document.getElementById('menu-category').textContent = currentRestaurant.category || '';
+      dishList.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando cardápio...</p></div>';
+      switchView('menu');
+
+      try {
+        currentDishes = await apiRequest(`/restaurants/${restaurantId}/dishes`);
+        renderMenu();
+      } catch (error) {
+        dishList.innerHTML = `<div class="error"><p>${escapeHtml(error.message)}</p></div>`;
+      }
+    }
+
+    // Os cards aparecem em várias telas, então os cliques são tratados em um só lugar
+    function handleAppClick(e) {
+      const heart = e.target.closest('.heart');
+      if (heart) {
+        toggleFavorite(Number(heart.dataset.restaurantId));
+        return;
+      }
+
+      const addButton = e.target.closest('.add-cart-btn');
+      if (addButton) {
+        addToCart(Number(addButton.dataset.dishId));
+        return;
+      }
+
+      if (e.target.closest('[data-go-profile]')) {
+        switchView('profile');
+        return;
+      }
+
+      const card = e.target.closest('.restaurant-card, [data-open-restaurant]');
+      if (card) {
+        openMenu(Number(card.dataset.restaurantId));
+      }
+    }
+
+    const appRoot = document.querySelector('.phone');
+    appRoot.addEventListener('click', handleAppClick);
+    appRoot.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && e.target.matches('.restaurant-card, [data-open-restaurant]')) {
+        openMenu(Number(e.target.dataset.restaurantId));
+      }
+    });
+
+    document.getElementById('menu-back').addEventListener('click', () => {
+      currentRestaurant = null;
+      switchView(activeTab);
+    });
+
+    dishList.addEventListener('change', async (e) => {
+      if (!e.target.matches('.dish-image-input') || !e.target.files[0]) {
+        return;
+      }
+
+      const dishId = Number(e.target.dataset.dishId);
+      showMessage(menuMessage, 'Enviando imagem...', 'success');
+
+      try {
+        const updated = await uploadImage(`/dishes/${dishId}/image`, e.target.files[0]);
+        currentDishes = currentDishes.map(dish => dish.id === dishId ? updated : dish);
+        renderMenu();
+        showMessage(menuMessage, 'Imagem atualizada!', 'success');
+      } catch (error) {
+        e.target.value = '';
+        showMessage(menuMessage, error.message, 'error');
+      }
+    });
+
+    addDishForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('dish-submit-btn');
+      const imageFile = document.getElementById('dish-image').files[0];
+      const restaurantId = currentRestaurant.id;
+      const body = {
+        name: document.getElementById('dish-name').value.trim(),
+        category: document.getElementById('dish-category').value.trim(),
+        price: document.getElementById('dish-price').value,
+        description: document.getElementById('dish-description').value.trim()
+      };
+
+      submitBtn.disabled = true;
+
+      try {
+        let dish = await apiRequest(`/restaurants/${restaurantId}/dishes`, { method: 'POST', body, auth: true });
+        let message = 'Prato adicionado!';
+        let type = 'success';
+
+        // O prato é criado primeiro; a imagem depende do id dele
+        if (imageFile) {
+          try {
+            dish = await uploadImage(`/dishes/${dish.id}/image`, imageFile);
+          } catch (error) {
+            message = `Prato adicionado, mas a imagem falhou: ${error.message}`;
+            type = 'error';
+          }
+        }
+
+        currentDishes = [...currentDishes, dish];
+        addDishForm.reset();
+        renderMenu();
+        showMessage(menuMessage, message, type);
+      } catch (error) {
+        showMessage(menuMessage, error.message, 'error');
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    // =============================================================
+    // Componentes compartilhados entre as telas
+    // =============================================================
+
+    const ICON_HEART = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-9-9.3C2 7.3 4.2 4.5 7.2 4.5c2 0 3.6 1 4.8 2.8 1.2-1.8 2.8-2.8 4.8-2.8 3 0 5.2 2.8 4.2 6.2C19.5 15.4 12 20 12 20Z"/></svg>';
+    const ICON_PLUS = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+    const ICON_MINUS = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>';
+    const ICON_TRASH = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13"/></svg>';
+
+    const toast = document.getElementById('toast');
+    const knownRestaurants = new Map();
+    let favoriteIds = new Set();
+
+    function showToast(text, type) {
+      showMessage(toast, text, type);
+    }
+
+    function requireLogin(message) {
+      switchView('profile');
+      showMessage(authMessage, message, 'error');
+    }
+
+    function emptyHtml(icon, text) {
+      return `<div class="empty"><div class="icon">${icon}</div><p>${escapeHtml(text)}</p></div>`;
+    }
+
+    function errorHtml(message) {
+      return `<div class="error"><p>${escapeHtml(message)}</p></div>`;
+    }
+
+    function loadingHtml() {
+      return '<div class="loading"><div class="spinner"></div></div>';
+    }
+
+    function loginPromptHtml(text) {
+      return `
+        <div class="empty login-prompt">
+          <p>${escapeHtml(text)}</p>
+          <button type="button" class="submit-btn" data-go-profile>Entrar</button>
+        </div>
+      `;
+    }
+
+    function setBadge(badgeId, count) {
+      const badge = document.getElementById(badgeId);
+      badge.hidden = count === 0;
+      badge.textContent = count > 99 ? '99+' : count;
+    }
+
+    function restaurantCardHtml(restaurant, index) {
+      const isFavorite = favoriteIds.has(restaurant.id);
+
+      return `
+        <div class="restaurant-card" data-restaurant-id="${restaurant.id}" tabindex="0" style="animation-delay: ${index * 0.05}s">
+          <div class="restaurant-img" data-category="${escapeHtml(restaurant.category)}">
+            <span class="placeholder">${categoryEmoji[restaurant.category] || "🏪"}</span>
+          </div>
+          <div class="restaurant-info">
+            <h3>${escapeHtml(restaurant.name)}</h3>
+            <div class="meta">${escapeHtml(restaurant.category || "Sem categoria")} • 20-30 min</div>
+            <div class="rating">★ ${escapeHtml(restaurant.rating)}</div>
+          </div>
+          <div class="restaurant-right">
+            <button type="button" class="heart${isFavorite ? ' active' : ''}" data-restaurant-id="${restaurant.id}" aria-label="Favoritar ${escapeHtml(restaurant.name)}" aria-pressed="${isFavorite}">${ICON_HEART}</button>
+            <div class="delivery-info">
+              Entrega<br>
+              <span class="price">R$ ${getDeliveryPrice(restaurant.id)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRestaurantCards(restaurants) {
+      restaurants.forEach(restaurant => knownRestaurants.set(restaurant.id, restaurant));
+      return restaurants.map(restaurantCardHtml).join('');
+    }
+
+    function dishImageHtml(dish) {
+      return dish.imageUrl
+        ? `<img src="${escapeHtml(imageSrc(dish.imageUrl))}" alt="${escapeHtml(dish.name)}">`
+        : '🍽️';
+    }
+
+    function dishCardHtml(dish, { isOwner = false, subtitle = dish.category, openRestaurant = false } = {}) {
+      const openAttributes = openRestaurant
+        ? `data-open-restaurant data-restaurant-id="${dish.restaurantId}" tabindex="0"`
+        : '';
+
+      return `
+        <article class="dish-card" ${openAttributes}>
+          <div class="dish-img">${dishImageHtml(dish)}</div>
+          <div class="dish-info">
+            <h3>${escapeHtml(dish.name)}</h3>
+            <p class="dish-category">${escapeHtml(subtitle)}</p>
+            <p class="dish-description">${escapeHtml(dish.description)}</p>
+            <div class="dish-footer">
+              <span class="dish-price">${formatPrice(dish.price)}</span>
+              <div class="dish-actions">
+                ${isOwner ? `
+                  <label class="dish-upload">
+                    ${dish.imageUrl ? 'Trocar foto' : 'Adicionar foto'}
+                    <input type="file" class="visually-hidden dish-image-input" data-dish-id="${dish.id}" accept="image/jpeg,image/png,image/webp">
+                  </label>
+                ` : ''}
+                <button type="button" class="add-cart-btn" data-dish-id="${dish.id}" aria-label="Adicionar ${escapeHtml(dish.name)} ao carrinho">${ICON_PLUS}</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    // =============================================================
+    // Busca
+    // =============================================================
+
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    const SEARCH_DELAY_MS = 300;
+    let searchTimer;
+    let lastSearchId = 0;
+
+    function renderSearchIdle() {
+      searchResults.innerHTML = emptyHtml('🔍', 'Busque por restaurante, categoria ou prato.');
+    }
+
+    function renderSearchResults({ restaurants, dishes }) {
+      if (restaurants.length === 0 && dishes.length === 0) {
+        searchResults.innerHTML = emptyHtml('🍽️', 'Nada encontrado para essa busca.');
+        return;
+      }
+
+      dishes.forEach(dish => knownRestaurants.set(dish.restaurant.id, dish.restaurant));
+
+      const restaurantsHtml = restaurants.length === 0 ? '' : `
+        <h3 class="results-title">Restaurantes</h3>
+        <div class="dish-list">${renderRestaurantCards(restaurants)}</div>
+      `;
+      const dishesHtml = dishes.length === 0 ? '' : `
+        <h3 class="results-title">Pratos</h3>
+        <div class="dish-list">
+          ${dishes.map(dish => dishCardHtml(dish, { subtitle: dish.restaurant.name, openRestaurant: true })).join('')}
+        </div>
+      `;
+
+      searchResults.innerHTML = restaurantsHtml + dishesHtml;
+    }
+
+    async function runSearch() {
+      const term = searchInput.value.trim();
+      const searchId = ++lastSearchId;
+
+      if (!term) {
+        renderSearchIdle();
+        return;
+      }
+
+      searchResults.innerHTML = loadingHtml();
+
+      try {
+        const results = await apiRequest(`/search?q=${encodeURIComponent(term)}`);
+        // Ignora respostas de buscas antigas que chegaram depois da mais recente
+        if (searchId === lastSearchId) {
+          renderSearchResults(results);
+        }
+      } catch (error) {
+        if (searchId === lastSearchId) {
+          searchResults.innerHTML = errorHtml(error.message);
+        }
+      }
+    }
+
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(runSearch, SEARCH_DELAY_MS);
+    });
+
+    // =============================================================
+    // Favoritos
+    // =============================================================
+
+    const favoritesList = document.getElementById('favorites-list');
+
+    function refreshHearts() {
+      document.querySelectorAll('.heart').forEach(heart => {
+        const isFavorite = favoriteIds.has(Number(heart.dataset.restaurantId));
+        heart.classList.toggle('active', isFavorite);
+        heart.setAttribute('aria-pressed', isFavorite);
+      });
+    }
+
+    async function loadFavorites() {
+      if (!session) {
+        favoriteIds = new Set();
+        refreshHearts();
+        favoritesList.innerHTML = loginPromptHtml('Entre na sua conta para salvar seus restaurantes favoritos.');
+        return;
+      }
+
+      try {
+        const favorites = await apiRequest('/favorites', { auth: true });
+        favoriteIds = new Set(favorites.map(restaurant => restaurant.id));
+        favoritesList.innerHTML = favorites.length > 0
+          ? renderRestaurantCards(favorites)
+          : emptyHtml('🤍', 'Toque no coração de um restaurante para salvá-lo aqui.');
+        refreshHearts();
+      } catch (error) {
+        favoritesList.innerHTML = errorHtml(error.message);
+      }
+    }
+
+    async function toggleFavorite(restaurantId) {
+      if (!session) {
+        requireLogin('Entre na sua conta para favoritar restaurantes.');
+        return;
+      }
+
+      try {
+        const method = favoriteIds.has(restaurantId) ? 'DELETE' : 'POST';
+        await apiRequest(`/favorites/${restaurantId}`, { method, auth: true });
+        await loadFavorites();
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+
+    // =============================================================
+    // Carrinho
+    // =============================================================
+
+    const EMPTY_CART = { restaurant: null, itemCount: 0, subtotal: '0.00', items: [] };
+    const MAX_CART_QUANTITY = 99;
+    const cartItems = document.getElementById('cart-items');
+    const cartClearBtn = document.getElementById('cart-clear');
+    let cart = EMPTY_CART;
+
+    function cartItemHtml(item) {
+      const { dish, quantity } = item;
+
+      return `
+        <article class="dish-card">
+          <div class="dish-img">${dishImageHtml(dish)}</div>
+          <div class="dish-info">
+            <h3>${escapeHtml(dish.name)}</h3>
+            <p class="dish-category">${formatPrice(dish.price)} cada</p>
+            <div class="dish-footer">
+              <div class="qty-stepper">
+                <button type="button" data-cart-action="decrease" data-item-id="${item.id}" aria-label="Diminuir quantidade">${ICON_MINUS}</button>
+                <span>${quantity}</span>
+                <button type="button" data-cart-action="increase" data-item-id="${item.id}" aria-label="Aumentar quantidade" ${quantity >= MAX_CART_QUANTITY ? 'disabled' : ''}>${ICON_PLUS}</button>
+              </div>
+              <span class="dish-price">${formatPrice(item.lineTotal)}</span>
+            </div>
+          </div>
+          <button type="button" class="icon-btn" data-cart-action="remove" data-item-id="${item.id}" aria-label="Remover ${escapeHtml(dish.name)}">${ICON_TRASH}</button>
+        </article>
+      `;
+    }
+
+    function applyCart(value) {
+      cart = value;
+      const hasItems = cart.items.length > 0;
+      const restaurantLabel = document.getElementById('cart-restaurant');
+
+      setBadge('cart-badge', cart.itemCount);
+      cartClearBtn.hidden = !hasItems;
+      restaurantLabel.hidden = !hasItems;
+      restaurantLabel.textContent = hasItems ? cart.restaurant.name : '';
+      document.getElementById('cart-summary').hidden = !hasItems;
+      document.getElementById('cart-subtotal').textContent = formatPrice(cart.subtotal);
+
+      if (hasItems) {
+        cartItems.innerHTML = cart.items.map(cartItemHtml).join('');
+      } else if (session) {
+        cartItems.innerHTML = emptyHtml('🛍️', 'Seu carrinho está vazio. Adicione pratos pelo cardápio.');
+      } else {
+        cartItems.innerHTML = loginPromptHtml('Entre na sua conta para montar seu pedido.');
+      }
+    }
+
+    async function loadCart() {
+      if (!session) {
+        applyCart(EMPTY_CART);
+        return;
+      }
+
+      try {
+        applyCart(await apiRequest('/cart', { auth: true }));
+      } catch (error) {
+        cartItems.innerHTML = errorHtml(error.message);
+      }
+    }
+
+    async function changeCart(path, options) {
+      try {
+        applyCart(await apiRequest(path, { ...options, auth: true }));
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+
+    async function addToCart(dishId) {
+      if (!session) {
+        requireLogin('Entre na sua conta para adicionar pratos ao carrinho.');
+        return;
+      }
+
+      try {
+        applyCart(await apiRequest('/cart/items', { method: 'POST', body: { dishId, quantity: 1 }, auth: true }));
+        showToast('Adicionado ao carrinho!', 'success');
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+
+    cartItems.addEventListener('click', (e) => {
+      const button = e.target.closest('[data-cart-action]');
+      const item = button && cart.items.find(entry => entry.id === Number(button.dataset.itemId));
+      if (!item) {
+        return;
+      }
+
+      const action = button.dataset.cartAction;
+      const quantity = item.quantity + (action === 'increase' ? 1 : -1);
+
+      if (action === 'remove' || quantity < 1) {
+        changeCart(`/cart/items/${item.id}`, { method: 'DELETE' });
+      } else {
+        changeCart(`/cart/items/${item.id}`, { method: 'PATCH', body: { quantity } });
+      }
+    });
+
+    cartClearBtn.addEventListener('click', async () => {
+      try {
+        await apiRequest('/cart', { method: 'DELETE', auth: true });
+        applyCart(EMPTY_CART);
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    });
+
+    // =============================================================
+    // Notificações
+    // =============================================================
+
+    const notificationsList = document.getElementById('notifications-list');
+    const notificationsReadAllBtn = document.getElementById('notifications-read-all');
+    let notifications = [];
+
+    function formatRelativeTime(isoDate) {
+      const minutes = Math.round((new Date(isoDate) - Date.now()) / 60000);
+      const formatter = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
+
+      if (Math.abs(minutes) < 1) {
+        return 'agora';
+      }
+      if (Math.abs(minutes) < 60) {
+        return formatter.format(minutes, 'minute');
+      }
+      if (Math.abs(minutes) < 1440) {
+        return formatter.format(Math.round(minutes / 60), 'hour');
+      }
+      return formatter.format(Math.round(minutes / 1440), 'day');
+    }
+
+    function notificationHtml(notification) {
+      return `
+        <button type="button" class="notification-card${notification.readAt ? '' : ' unread'}" data-notification-id="${notification.id}">
+          <span class="notification-dot"></span>
+          <span class="notification-body">
+            <strong>${escapeHtml(notification.title)}</strong>
+            <span>${escapeHtml(notification.message)}</span>
+            <time datetime="${escapeHtml(notification.createdAt)}">${formatRelativeTime(notification.createdAt)}</time>
+          </span>
+        </button>
+      `;
+    }
+
+    function applyNotifications({ items, unreadCount }) {
+      notifications = items;
+      setBadge('notifications-badge', unreadCount);
+      notificationsReadAllBtn.hidden = unreadCount === 0;
+
+      if (!session) {
+        notificationsList.innerHTML = loginPromptHtml('Entre na sua conta para ver suas notificações.');
+      } else if (items.length === 0) {
+        notificationsList.innerHTML = emptyHtml('🔔', 'Você não tem notificações.');
+      } else {
+        notificationsList.innerHTML = items.map(notificationHtml).join('');
+      }
+    }
+
+    async function loadNotifications() {
+      if (!session) {
+        applyNotifications({ items: [], unreadCount: 0 });
+        return;
+      }
+
+      try {
+        applyNotifications(await apiRequest('/notifications', { auth: true }));
+      } catch (error) {
+        notificationsList.innerHTML = errorHtml(error.message);
+      }
+    }
+
+    async function changeNotifications(path) {
+      try {
+        applyNotifications(await apiRequest(path, { method: 'PATCH', auth: true }));
+      } catch (error) {
+        showToast(error.message, 'error');
+      }
+    }
+
+    notificationsList.addEventListener('click', (e) => {
+      const card = e.target.closest('.notification-card.unread');
+      if (card) {
+        changeNotifications(`/notifications/${card.dataset.notificationId}/read`);
+      }
+    });
+
+    notificationsReadAllBtn.addEventListener('click', () => changeNotifications('/notifications/read-all'));
+
+    // =============================================================
+    // Inicialização
+    // =============================================================
+
+    const VIEW_LOADERS = {
+      search: () => {
+        if (!searchInput.value) {
+          searchInput.focus();
+        }
+      },
+      favorites: loadFavorites,
+      cart: loadCart,
+      notifications: loadNotifications
+    };
+
+    function syncUserData() {
+      return Promise.all([loadFavorites(), loadCart(), loadNotifications()]);
+    }
+
+    renderSearchIdle();
+    renderSession();
+    refreshSession();
+    syncUserData();
   </script>
 </body>
 </html>

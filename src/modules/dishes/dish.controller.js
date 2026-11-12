@@ -1,11 +1,5 @@
 const dishService = require("./dish.service");
-
-function handleError(res, error) {
-  const status = error.statusCode || 500;
-  return res.status(status).json({
-    error: status === 500 ? "Erro interno no servidor" : error.message
-  });
-}
+const { handleError } = require("../shared/http.utils");
 
 async function create(req, res) {
   try {
@@ -52,11 +46,21 @@ async function remove(req, res) {
   }
 }
 
+async function uploadImage(req, res) {
+  try {
+    const dish = await dishService.updateDishImage(req.params.dishId, req.file.buffer, req.user.id);
+    return res.status(200).json(dish);
+  } catch (error) {
+    return handleError(res, error);
+  }
+}
+
 module.exports = {
   create,
   list,
   getById,
   update,
   remove,
+  uploadImage,
   handleError
 };

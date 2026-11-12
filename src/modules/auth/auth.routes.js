@@ -2,6 +2,7 @@ const express = require("express");
 const controller = require("./auth.controller");
 const authService = require("./auth.service");
 const authenticate = require("./auth.middleware");
+const { uploadImage } = require("../shared/upload.middleware");
 
 const router = express.Router();
 
@@ -22,5 +23,8 @@ router.get("/me", authenticate, async (req, res) => {
     res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
+
+// O usuário vem sempre do token, nunca de um id enviado na requisição
+router.post("/me/image", authenticate, uploadImage("image"), controller.uploadImage);
 
 module.exports = router;
